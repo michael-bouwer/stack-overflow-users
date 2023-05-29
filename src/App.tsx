@@ -1,31 +1,20 @@
 import './App.scss'
 
-import React, { useEffect, useState } from 'react'
+import { ChakraProvider, Container } from '@chakra-ui/react'
 
-import { URL_getUsers } from './Lib'
-import { UserListResult } from './Types'
+import CardList from './components/CardList'
+import { Providers } from './Providers'
+import React from 'react'
 
-const App = () => {
-  const [userList, setUserList] = useState<UserListResult>()
-
-  useEffect(() => {
-    fetch(URL_getUsers)
-      .then((data) => data.json())
-      .then((data) => data && setUserList(data))
-  }, [])
-
-  if (!userList || !userList.items) return null
-
+const App: React.FC = () => {
   return (
-    <div className="App">
-      {userList && userList.items.length > 0 ? (
-        <ul>
-          {userList.items.map((item) => (
-            <li key={item.user_id}>{item.display_name}</li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
+    <ChakraProvider>
+      <Providers>
+        <Container className="App" bg="blue.300">
+          <CardList />
+        </Container>
+      </Providers>
+    </ChakraProvider>
   )
 }
 
