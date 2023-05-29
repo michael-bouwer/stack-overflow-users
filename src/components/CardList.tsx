@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from 'react'
-
-import { URL_getUsers } from '../Lib'
-import { UserListResult } from '../Types'
+import React from 'react'
+import { useApp } from '../Providers'
 
 const CardList: React.FC = () => {
-  const [userList, setUserList] = useState<UserListResult>()
+  const { currentUsers } = useApp()
 
-  useEffect(() => {
-    fetch(URL_getUsers)
-      .then((data) => data.json())
-      .then((data) => data && setUserList(data))
-  }, [])
-
-  if (!userList || !userList.items) return null
+  if (!currentUsers) return null
 
   return (
     <div>
-      {userList && userList.items.length > 0 ? (
+      {currentUsers && currentUsers.items.length > 0 ? (
         <ul>
-          {userList.items.map((item) => (
+          {currentUsers.items.map((item) => (
             <li key={item.user_id}>{item.display_name}</li>
           ))}
         </ul>

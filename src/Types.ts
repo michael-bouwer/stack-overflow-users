@@ -1,4 +1,9 @@
 export interface UserListResult {
+  time_queried: Date
+  data: UserListData
+}
+
+export interface UserListData {
   has_more: boolean
   items: User[]
   quota_max: number

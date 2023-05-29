@@ -2,18 +2,18 @@ import './App.scss'
 
 import { ChakraProvider, Container } from '@chakra-ui/react'
 
+import { AppProvider } from './Providers'
 import CardList from './components/CardList'
-import { Providers } from './Providers'
 import React from 'react'
 
 const App: React.FC = () => {
   return (
     <ChakraProvider>
-      <Providers>
+      <AppProvider>
         <Container className="App" bg="blue.300">
           <CardList />
         </Container>
-      </Providers>
+      </AppProvider>
     </ChakraProvider>
   )
 }
