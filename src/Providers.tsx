@@ -16,6 +16,8 @@ type AppContext = {
   setSelectedUser: Dispatch<SetStateAction<User | null>>
   currentUsers: UserListData | null
   setCurrentUsers: Dispatch<SetStateAction<UserListData | null>>
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const initialValues = {
@@ -23,6 +25,8 @@ const initialValues = {
   setSelectedUser: () => {},
   currentUsers: null,
   setCurrentUsers: () => {},
+  open: false,
+  setOpen: () => {},
 }
 
 const appContext = createContext<AppContext>(initialValues)
@@ -42,6 +46,7 @@ export type Props = {
 export const AppProvider = (props: Props) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [currentUsers, setCurrentUsers] = useState<UserListData | null>(null)
+  const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
     /**
@@ -72,6 +77,8 @@ export const AppProvider = (props: Props) => {
     setSelectedUser,
     currentUsers,
     setCurrentUsers,
+    open,
+    setOpen,
   }
 
   return React.createElement(appContext.Provider, { value }, props.children)

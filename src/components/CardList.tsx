@@ -1,3 +1,6 @@
+import { Center, Divider, Grid, GridItem, Heading, VStack } from '@chakra-ui/react'
+
+import CardItem from './CardItem'
 import React from 'react'
 import { useApp } from '../Providers'
 
@@ -7,15 +10,23 @@ const CardList: React.FC = () => {
   if (!currentUsers) return null
 
   return (
-    <div>
+    <VStack p="16px">
+      <Heading as="h2" size="xl" mb="32px">
+        Stack Overflow Users by Reputation
+      </Heading>
+      <Divider style={{ borderColor: 'var(--chakra-colors-chakra-border-color)', marginBottom: '32px' }} />
       {currentUsers && currentUsers.items.length > 0 ? (
-        <ul>
+        <Grid templateColumns={{ sm: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
           {currentUsers.items.map((item) => (
-            <li key={item.user_id}>{item.display_name}</li>
+            <GridItem key={item.user_id}>
+              <Center h="100%">
+                <CardItem user={item} />
+              </Center>
+            </GridItem>
           ))}
-        </ul>
+        </Grid>
       ) : null}
-    </div>
+    </VStack>
   )
 }
 

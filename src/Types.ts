@@ -11,6 +11,7 @@ export interface UserListData {
 }
 
 export interface User {
+  following?: boolean
   accept_rate: number
   account_id: number
   badge_counts: BadgeCounts
