@@ -1,4 +1,4 @@
-import { Badge, Card, CardBody, Heading, Image, Stack } from '@chakra-ui/react'
+import { Badge, Box, Card, CardBody, Heading, Image, Stack } from '@chakra-ui/react'
 
 import React from 'react'
 import { User } from '../Types'
@@ -17,17 +17,21 @@ const CardItem: React.FC<Props> = ({ user }) => {
       direction={{ sm: 'row' }}
       overflow="hidden"
       w="100%"
+      variant={user.blocked ? 'filled' : 'elevated'}
       onClick={() => {
         setSelectedUser(user)
         setOpen(true)
       }}
     >
       <Image objectFit="cover" maxW={{ base: '60px' }} src={user.profile_image} alt={user.display_name} />
-      {user.following && (
-        <Badge colorScheme="green" style={{ position: 'absolute', top: 0, right: 8 }}>
-          Success
-        </Badge>
-      )}
+      <Box style={{ display: 'flex', position: 'absolute', top: 0, right: 8 }}>
+        {user.following && (
+          <Badge colorScheme="green" mr={user.blocked ? '4px' : '0'}>
+            Following
+          </Badge>
+        )}
+        {user.blocked && <Badge colorScheme="red">Blocked</Badge>}
+      </Box>
 
       <Stack>
         <CardBody>

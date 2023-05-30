@@ -10,8 +10,9 @@ export interface UserListData {
   quota_remaining: number
 }
 
-export interface User {
-  following?: boolean
+export type User = {
+  following: boolean
+  blocked: boolean
   accept_rate: number
   account_id: number
   badge_counts: BadgeCounts

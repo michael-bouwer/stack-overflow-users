@@ -15,9 +15,9 @@ const CardList: React.FC = () => {
         Stack Overflow Users by Reputation
       </Heading>
       <Divider style={{ borderColor: 'var(--chakra-colors-chakra-border-color)', marginBottom: '32px' }} />
-      {currentUsers && currentUsers.items.length > 0 ? (
+      {currentUsers && currentUsers.data.items.length > 0 ? (
         <Grid templateColumns={{ sm: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
-          {currentUsers.items.map((item) => (
+          {currentUsers.data.items.map((item) => (
             <GridItem key={item.user_id}>
               <Center h="100%">
                 <CardItem user={item} />
