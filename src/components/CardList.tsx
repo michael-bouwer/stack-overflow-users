@@ -1,13 +1,12 @@
-import { Center, Divider, Grid, GridItem, Heading, VStack } from '@chakra-ui/react'
+import { Button, Center, Divider, Grid, GridItem, Heading, Text, VStack } from '@chakra-ui/react'
 
 import CardItem from './CardItem'
+import ErrorState from './ErrorState'
 import React from 'react'
 import { useApp } from '../Providers'
 
 const CardList: React.FC = () => {
-  const { currentUsers } = useApp()
-
-  if (!currentUsers) return null
+  const { currentUsers, error } = useApp()
 
   return (
     <VStack p="16px">
@@ -15,17 +14,25 @@ const CardList: React.FC = () => {
         Stack Overflow Users by Reputation
       </Heading>
       <Divider style={{ borderColor: 'var(--chakra-colors-chakra-border-color)', marginBottom: '32px' }} />
-      {currentUsers && currentUsers.data.items.length > 0 ? (
-        <Grid templateColumns={{ sm: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
-          {currentUsers.data.items.map((item) => (
+      {error && (
+        <Center>
+          <VStack mb={41}>
+            <Text fontSize="2xl">Something went wrong</Text>
+            <Button onClick={() => window.location.reload()}>Refresh?</Button>
+          </VStack>
+        </Center>
+      )}
+      <Grid templateColumns={{ sm: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={6}>
+        {currentUsers &&
+          currentUsers.data.items.map((item) => (
             <GridItem key={item.user_id}>
               <Center h="100%">
                 <CardItem user={item} />
               </Center>
             </GridItem>
           ))}
-        </Grid>
-      ) : null}
+        {error && <ErrorState />}
+      </Grid>
     </VStack>
   )
 }

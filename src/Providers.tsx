@@ -20,6 +20,7 @@ export type AppContext = {
   updateCurrentUsers: Dispatch<[Actions, User | UserListResult]>
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  error: boolean
 }
 
 const initialValues = {
@@ -29,6 +30,7 @@ const initialValues = {
   updateCurrentUsers: () => {},
   open: false,
   setOpen: () => {},
+  error: false,
 }
 
 const appContext = createContext<AppContext>(initialValues)
@@ -104,6 +106,7 @@ export const AppProvider = (props: Props) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [currentUsers, updateCurrentUsers] = useReducer(reducer, null) //useState<UserListData | null>(null)
   const [open, setOpen] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
 
   useEffect(() => {
     /**
@@ -112,7 +115,10 @@ export const AppProvider = (props: Props) => {
      */
     const getData = async () => {
       const cachedData: UserListResult | null = await localforage.getItem('cachedUserList')
-      if (cachedData?.data && withinTTL(cachedData.time_queried)) updateCurrentUsers(['init', cachedData])
+      if (cachedData?.data && withinTTL(cachedData.time_queried)) {
+        updateCurrentUsers(['init', cachedData])
+        setError(false)
+      }
       else {
         fetch(URL_getUsers)
           .then((data) => data.json())
@@ -135,8 +141,10 @@ export const AppProvider = (props: Props) => {
               }
               updateCurrentUsers(['init', newData])
               localforage.setItem('cachedUserList', newData)
+              setError(false)
             }
           })
+          .catch(() => setError(true))
       }
     }
     getData()
@@ -149,6 +157,7 @@ export const AppProvider = (props: Props) => {
     updateCurrentUsers,
     open,
     setOpen,
+    error,
   }
 
   return React.createElement(appContext.Provider, { value }, props.children)
