@@ -11,7 +11,7 @@ const CardList: React.FC = () => {
 
   return (
     <VStack p="16px">
-      <Heading as="h2" size="xl" mb="32px">
+      <Heading as="h2" size="xl" mb="32px" data-testid="app-heading-test">
         Stack Overflow Users by Reputation
       </Heading>
       <Divider style={{ borderColor: 'var(--chakra-colors-chakra-border-color)', marginBottom: '32px' }} />

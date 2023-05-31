@@ -18,6 +18,7 @@ const ModalHandler: React.FC = () => {
         following: action === 'follow',
       })
       updateCurrentUsers([action, selectedUser])
+      setOpen(false)
     }
   }
 
@@ -28,17 +29,18 @@ const ModalHandler: React.FC = () => {
         blocked: action === 'block',
       })
       updateCurrentUsers([action, selectedUser])
+      setOpen(false)
     }
   }
 
   if (!selectedUser) return null
 
   return (
-    <Modal isOpen={open} onClose={handleClose}>
+    <Modal isOpen={open} onClose={handleClose} data-testid='modal-test'>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {selectedUser.display_name} {selectedUser.following && <Badge colorScheme="green">Following</Badge>} {selectedUser.blocked && <Badge colorScheme="red">Blocked</Badge>}
+          {selectedUser.display_name} {selectedUser.following && <Badge colorScheme="green">Following</Badge>}
         </ModalHeader>
 
         <ModalCloseButton />
@@ -47,8 +49,7 @@ const ModalHandler: React.FC = () => {
             <Image objectFit="cover" p="16px" w="50%" height={100} width={100} borderRadius="10%" src={selectedUser.profile_image} alt={selectedUser.display_name} />
             <VStack align="stretch">
               <Text>{selectedUser.display_name}</Text>
-              <Text>{selectedUser.display_name}</Text>
-              <Text>{selectedUser.display_name}</Text>
+              <Text>Reputation: {selectedUser.reputation}</Text>
             </VStack>
           </HStack>
         </ModalBody>
@@ -64,13 +65,9 @@ const ModalHandler: React.FC = () => {
               </Button>
             )}
 
-            {!selectedUser.blocked ? (
+            {!selectedUser.blocked && (
               <Button colorScheme="red" w="100px" onClick={() => _handleBlockAction('block')}>
                 Block
-              </Button>
-            ) : (
-              <Button variant="outline" w="100px" onClick={() => _handleBlockAction('unblock')}>
-                Unblock
               </Button>
             )}
           </ModalFooter>

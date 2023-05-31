@@ -13,7 +13,7 @@ import localforage from 'localforage'
  */
 export const useApp = () => useContext(appContext)
 
-type AppContext = {
+export type AppContext = {
   selectedUser: User | null
   setSelectedUser: Dispatch<SetStateAction<User | null>>
   currentUsers: UserListResult | null
@@ -126,7 +126,7 @@ export const AppProvider = (props: Props) => {
                   items: data.items.map((d) => {
                     return {
                       ...d,
-                      following: cachedData?.data?.items?.find((item) => d.account_id === item.account_id)?.following || false,                      
+                      following: cachedData?.data?.items?.find((item) => d.account_id === item.account_id)?.following || false,
                       blocked: cachedData?.data?.items?.find((item) => d.account_id === item.account_id)?.blocked || false,
                     }
                   }),
